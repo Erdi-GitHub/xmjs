@@ -1,0 +1,18 @@
+{
+  "name": "xmjs",
+  "version": "1.0.2",
+  "description": "XML 1.0 parsing, stringifying, validating, converting to and from JSON",
+  "main": "xml.js",
+  "keywords": [
+    "XAML",
+    "XML",
+    ".js",
+    "JS",
+    "Parser",
+    "XAML.js",
+    "xml 1.0",
+    "xml 1"
+  ],
+  "author": "erdi",
+  "license": "ISC"
+}
