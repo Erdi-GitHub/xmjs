@@ -44,9 +44,9 @@ function parse(text, options = { parseChildren: true, getAttributes: true }) {
         options.getAttributes = true;
     
 
-    text = text.replace(/<\?xml.*\?>/, "").replace(/  /g, "").replace(/\n/g, "");
+    text = text.replace(/<\?xml.*\?>/, "").replace(/ *\n/g, "").replace(/\t/g, " ").replace(/> </g, "><");
 
-    const regex = /<([A-z]*[\d]*)( [A-z]*[\d]*=".*?")*>(.*)<\/\1>/;
+    const regex = /<([A-z|_]*[\d]*)( [A-z]*[\d]*=".*?")*>(.*)<\/\1>/;
 
     const unexpectedTokens = text.replace(new RegExp(regex, "g"), "");
     if(unexpectedTokens)
