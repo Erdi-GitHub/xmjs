@@ -4,12 +4,11 @@
   "description": "XML 1.0 parsing, stringifying, validating, converting to and from JSON",
   "main": "xml.js",
   "keywords": [
-    "XAML",
     "XML",
     ".js",
     "JS",
     "Parser",
-    "XAML.js",
+    "XML.js",
     "xml 1.0",
     "xml 1"
   ],
