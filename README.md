@@ -186,3 +186,5 @@ XML.jsonToXml("{ \"Hello\": \"World\" }");
 * Added changelog to README.md
 ## 1.1.1
 * Fixed XML arrays not parsing correctly
+## 1.1.2
+* Fixed last attribute overridng all other attributes in XML objects (`<a b="c" c="d"></a>` would actually only have attribute `c`)
