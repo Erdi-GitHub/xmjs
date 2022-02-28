@@ -45,7 +45,7 @@ function parse(text, options = { parseChildren: true, getAttributes: true }) {
         options.getAttributes = true;
     
 
-    text = text.replace(/<\?xml.*\?>/, "").replace(/ *\n/g, "").replace(/\t/g, " ").replace(/> </g, "><");
+    text = text.replace(/<\?xml.*\?>/, "").replace(/ *\n/g, "").replace(/\t/g, " ").replace(/> +</g, "><");
 
     const regex = /<([A-z|_]*[\d]*)( [A-z]*[\d]*=".*?")*>(.*?)<\/\1>/;
 
@@ -117,10 +117,13 @@ function parse(text, options = { parseChildren: true, getAttributes: true }) {
                         parsed.attributes = attributes;
                 }
 
-                result[key] = parsed;
+                if(typeof result[key].push === "function")
+                    result[key].push(parsed);
+                else
+                    result[key] = parsed;
             } else {
                 if(result[key]) {
-                    if(result[key].prototype === Array.prototype)
+                    if(typeof result[key].push === "function")
                         result[key].push({ value, attributes });
                     else
                         result[key] = [result[key], { value, attributes }];

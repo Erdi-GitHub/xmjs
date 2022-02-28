@@ -65,6 +65,19 @@ XML.parse("<Person name=\"Jonathan\" surname=\"Doe\"><Job income=\"500$\"></Job>
 }
 */
 ```
+XMJS supports XML arrays since version 1.1.0:
+```js
+XML.parse(`
+<Person name="John" surname="Doe">
+    <FavoriteFoods>
+        <Food>Cheeseburger</Food>
+        <Food>Pizza</Food>
+        <Food>Broccoli</Food>
+        <Food>Doner</Food>
+    </FavoriteFoods>
+</Person>
+`);
+```
 ### Stringifying
 XMJS can stringify JavaScript objects, just like how the `JSON.stringify` method does it
 ```js
@@ -141,3 +154,5 @@ XML.jsonToXml("{ \"Hello\": \"World\" }");
 * Added support for XML arrays
 * Added option `disallowUnexpectedTokenError`: allows unexpected tokens to exist in an XML document without throwing an error.
 * Added changelog to README.md
+## 1.1.1
+* Fixed XML arrays not parsing correctly
