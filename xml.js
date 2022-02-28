@@ -117,7 +117,7 @@ function parse(text, options = { parseChildren: true, getAttributes: true }) {
                         parsed.attributes = attributes;
                 }
 
-                if(typeof result[key].push === "function")
+                if(typeof result[key]?.push === "function")
                     result[key].push(parsed);
                 else
                     result[key] = parsed;

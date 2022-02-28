@@ -68,7 +68,7 @@ XML.parse("<Person name=\"Jonathan\" surname=\"Doe\"><Job income=\"500$\"></Job>
 XMJS supports XML arrays since version 1.1.0:
 ```js
 XML.parse(`
-<Person name="John" surname="Doe">
+<Person name="John">
     <FavoriteFoods>
         <Food>Cheeseburger</Food>
         <Food>Pizza</Food>
@@ -77,6 +77,36 @@ XML.parse(`
     </FavoriteFoods>
 </Person>
 `);
+
+/*
+{
+  Person: {
+    FavoriteFoods: {
+      Food: [
+        {
+          value: "Cheeseburger",
+          attributes: {}
+        },
+        {
+          value: "Pizza",
+          attributes: {}
+        },
+        {
+          value: "Broccoli",
+          attributes: {}
+        },
+        {
+          value: "Doner",
+          attributes: {}
+        }
+      ]
+    },
+    attributes: {
+      name: "John"
+    }
+  }
+}
+*/
 ```
 ### Stringifying
 XMJS can stringify JavaScript objects, just like how the `JSON.stringify` method does it
