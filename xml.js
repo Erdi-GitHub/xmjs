@@ -27,7 +27,8 @@ function stringify(obj) {
  * @param {string} text 
  * @param {{
  *  parseChildren?: boolean,
- *  getAttributes?: boolean
+ *  getAttributes?: boolean,
+ *  disallowUnexpectedTokenError?: boolean
  * }} options Options
  * @returns {{ value?: string, attributes: any[] }|{}|{}[]}
  */
@@ -44,17 +45,21 @@ function parse(text, options = { parseChildren: true, getAttributes: true }) {
         options.getAttributes = true;
     
 
-    text = text.replace(/<\?xml.*\?>/, "").replace(/  /g, " ").replace(/\n/g, " ");
+    text = text.replace(/<\?xml.*\?>/, "").replace(/ *\n/g, "").replace(/\t/g, " ").replace(/> </g, "><");
 
-    const regex = /<([A-z]*[\d]*)( [A-z]*[\d]*=".*?")*>(.*)<\/\1>/;
+    const regex = /<([A-z|_]*[\d]*)( [A-z]*[\d]*=".*?")*>(.*?)<\/\1>/;
 
-    const unexpectedTokens = text.replace(new RegExp(regex, "g"), "");
-    if(unexpectedTokens)
-        throw new XMLParsingError("Unexpected tokens: " + unexpectedTokens);
+    if(!options.disallowUnexpectedTokenError) {
+        const unexpectedTokens = text.replace(new RegExp(regex, "g"), "");
+        if(unexpectedTokens)
+            throw new XMLParsingError("Unexpected tokens: " + unexpectedTokens);
+    }
 
     const rawAttributes = {};
 
     const raw = (text
+            .replace(/  /g, " ")
+            .replace(/\n/g, "")
             .match(new RegExp(regex, "g")) || []).map(el => {
                 const match = el.match(regex);
                 const result = {};
@@ -63,7 +68,14 @@ function parse(text, options = { parseChildren: true, getAttributes: true }) {
                 const attrMatch = (match[2] || "").trimStart();
 
                 rawAttributes[key] = attrMatch;
-                result[key] = match[3];
+
+                if(result[key])
+                    if(result[key].prototype === Array.prototype)
+                        result[key].push(match[3]);
+                    else
+                        result[key] = [result[key], match[3]];
+                else
+                    result[key] = match[3];
 
                 return result;
             });
@@ -107,10 +119,16 @@ function parse(text, options = { parseChildren: true, getAttributes: true }) {
 
                 result[key] = parsed;
             } else {
-                result[key] = {
-                    value,
-                    attributes
-                };
+                if(result[key]) {
+                    if(result[key].prototype === Array.prototype)
+                        result[key].push({ value, attributes });
+                    else
+                        result[key] = [result[key], { value, attributes }];
+                } else
+                    result[key] = {
+                        value,
+                        attributes
+                    };
             }
         }
     }

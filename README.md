@@ -127,3 +127,17 @@ XML.jsonToXml("{ \"Hello\": \"World\" }");
 <Hello>World</Hello>
 */
 ```
+
+# Changelog
+## 1.0.0
+* Initial Release
+## 1.0.1
+* Minor bug fixes
+## 1.0.2
+* Minor bug fixes
+## 1.0.3
+* Minor bug fixes
+## 1.1.0
+* Added support for XML arrays
+* Added option `disallowUnexpectedTokenError`: allows unexpected tokens to exist in an XML document without throwing an error.
+* Added changelog to README.md
